@@ -1,0 +1,7 @@
+development:
+  adapter: postgresql
+  database: lethalbot_development
+
+test:
+  adapter: postgresql
+  database: lethalbot_test

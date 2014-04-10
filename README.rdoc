@@ -1,0 +1,5 @@
+As a user, I want to start a new game with my hero.
+As a user, I want to enter the opponent hero’s health and hero type.
+As a user, I want to choose the cards that are in my hand.
+As a user, I want to choose the cards that are in my field.
+As a user, I want to see the damage potential for my turn.
