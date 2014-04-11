@@ -6,8 +6,12 @@ FactoryGirl.define do
   	opponent_health 30
   	user_hero 'Rogue'
   	opponent_hero 'Warrior'
+
+  	factory :game_opponent_one_health do
+  		opponent_health 1
+  	end
+
   end
 
-  factory :game_opponent_one_health do
-  	opponent_health 1
+
 end
