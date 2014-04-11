@@ -8,87 +8,85 @@ describe Game do
 
 	it 'should start with no mana' do
 		game1 = FactoryGirl.create(:game)
-		Game.current_mana.should eq 1
+		game1.start
+		game1.mana.should eq 0
 	end
 
-
 	describe 'user_hand' do
-		describe 'set_user_hand' do
-			it 'needs to be initialized with set_user_hand' do
-				game = FactoryGirl.create(:game)
-				minion1 = FactoryGirl.create(:minion)
-				game.set_user_hand(minion1).should eq [minion1]
-			end
+		it 'should hold all the minions in the players hand and start with no minions' do
+			game = FactoryGirl.create(:game)
+			minion1 = FactoryGirl.create(:minion)
+			game.start
+			game.user_hand.should eq []
 		end
 
-		describe 'add_minion_to_hand' do
-			it 'adds minions to the hand' do
-				game = FactoryGirl.create(:game)
-				minion1 = FactoryGirl.create(:minion)
-				minion2 = FactoryGirl.create(:defender_of_argus)
-				game.set_user_hand(minion1)
-				game.add_minion_to_hand(minion2)
-				game.user_hand.should eq [minion1, minion2]
-			end
+		it 'should be able to hold minions' do
+			game = FactoryGirl.create(:game)
+			minion1 = FactoryGirl.create(:minion)
+			game.start
+			game.user_hand << minion1
+			game.user_hand.should eq [minion1]
 		end
 
-		describe 'remove_minion_from_hand' do
-			it 'removess minions to the hand' do
-				game = FactoryGirl.create(:game)
-				minion1 = FactoryGirl.create(:minion)
-				minion2 = FactoryGirl.create(:defender_of_argus)
-				game.set_user_hand(minion1)
-				game.add_minion_to_hand(minion2)
-				game.remove_minion_from_hand(minion1)
-				game.user_hand.should eq [minion2]
-			end
+		it 'should be able to have minions removed from it' do
+			game = FactoryGirl.create(:game)
+			minion1 = FactoryGirl.create(:minion)
+			minion2 = FactoryGirl.create(:defender_of_argus)
+			game.start
+			game.user_hand << minion1
+			game.user_hand << minion2
+			game.user_hand.delete(minion1)
+			game.user_hand.should eq [minion2]
 		end
 	end
 
 	describe 'user_field' do
-		it 'should contain all minions in the field' do
-			game = FactoryGirl.create(:game)
+		it 'should hold all the minions the user puts on the field but start with no minions' do
+			game =FactoryGirl.create(:game)
 			minion1 = FactoryGirl.create(:minion)
-			game.set_user_field(minion1)
+			game.start
+			game.user_field.should eq []
+		end
+
+		it 'should hold all the minions the user puts on the field' do
+			game =FactoryGirl.create(:game)
+			minion1 = FactoryGirl.create(:minion)
+			game.start
+			game.user_field << minion1
 			game.user_field.should eq [minion1]
 		end
-	end
 
-	describe 'add_minion_to_field' do
-		it 'should add a minion to the field array' do
-			game = FactoryGirl.create(:game)
+		it 'should be able to have minions removed from it' do
+			game =FactoryGirl.create(:game)
 			minion1 = FactoryGirl.create(:minion)
 			minion2 = FactoryGirl.create(:defender_of_argus)
-			game.set_user_field(minion1)
-			game.add_minion_to_field(minion2)
-			game.user_field.should eq [minion1, minion2]
-		end
-	end
-
-	describe 'remove_minion_from_field' do
-		it 'should remove a minion from the field array' do
-			game = FactoryGirl.create(:game)
-			minion1 = FactoryGirl.create(:minion)
-			minion2 = FactoryGirl.create(:defender_of_argus)
-			game.set_user_field(minion1)
-			game.add_minion_to_field(minion2)
-			game.remove_minion_from_field(minion1)
+			game.start
+			game.user_field << minion1
+			game.user_field << minion2
+			game.user_field.delete(minion1)
 			game.user_field.should eq [minion2]
 		end
 	end
 
 	describe 'total_field_damage' do
-		it 'should return the total damage of all minions on the field.' do
+		it 'should start with zero' do
 			game = FactoryGirl.create(:game)
-			minion1 = FactoryGirl.create(:minion)
-			minion2 = FactoryGirl.create(:defender_of_argus)
-			game.set_user_field(minion1)
-			game.add_minion_to_field(minion2)
+			game.start
+			game.total_field_damage.should eq 0
+		end
+
+		it 'should calculate the total amount of damage all the minions on the field can produce' do
+			game = FactoryGirl.create(:game)
+			minion = FactoryGirl.create(:minion)
+			minion1 = FactoryGirl.create(:defender_of_argus)
+			game.start
+			game.user_field << minion
+			game.user_field << minion1
 			game.total_field_damage.should eq 4
 		end
 	end
 
-		describe 'lethal' do
+	describe 'lethal' do
 		it 'should return false if the  user cannot decrease the opponents health to zero' do
 			game1 = FactoryGirl.create(:game)
 			game1.lethal.should eq false

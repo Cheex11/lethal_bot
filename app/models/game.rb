@@ -1,47 +1,53 @@
 class Game < ActiveRecord::Base
 
-	def set_user_hand(minion)
+	def start
 		@user_hand = []
-		@user_hand << minion
+		@user_field = []
+		@opponent_field = []
+		@mana = 0
+		@total_field_damage = 0
+		@total_user_damage
+		@total_hand_damage
+		@turn = 0
 	end
 
 	def mana
-
-	def set_user_field(minion)
-		@user_field = []
-		@user_field << minion
+		@mana
 	end
 
-	def user_field
-		@user_field
+	def turn
+		@turn = @mana
 	end
 
 	def user_hand
 		@user_hand
 	end
 
-	def add_minion_to_hand(minion)
-		@user_hand << minion
+	def user_field
+		@user_field
 	end
 
-	def add_minion_to_field(minion)
-		@user_field << minion
+	def opponent_field
+		@opponent_field
 	end
 
-	def remove_minion_from_hand(minion)
-		@user_hand.delete(minion)
-	end
-
-	def remove_minion_from_field(minion)
-		@user_field.delete(minion)
+	def mana
+		@mana
 	end
 
 	def total_field_damage
-		@total_field_damage = 0
 		@user_field.each do |minion|
 			@total_field_damage = @total_field_damage + minion.base_attack
 		end
 		@total_field_damage
+	end
+
+	def total_user_damage
+		@total_user_damage
+	end
+
+	def total_hand_damage
+		@toatl_hand_damage
 	end
 
 	def lethal
