@@ -1,6 +1,11 @@
-class Game < ActiveRecord::Base
+class Game
 
-	def start
+	def Game.create(hero1, hero2)
+		game = Game.new(hero1, hero2)
+		game
+	end
+
+	def initialize(hero1, hero2)
 		@user_hand = []
 		@user_field = []
 		@opponent_field = []
@@ -9,6 +14,8 @@ class Game < ActiveRecord::Base
 		@total_user_damage
 		@total_hand_damage
 		@turn = 0
+		@user_hero = hero1
+		@opponent_hero = hero2
 	end
 
 	def mana
@@ -21,6 +28,14 @@ class Game < ActiveRecord::Base
 
 	def user_hand
 		@user_hand
+	end
+
+	def user_hero
+		@user_hero
+	end
+
+	def opponent_hero
+		@opponent_hero
 	end
 
 	def user_field
